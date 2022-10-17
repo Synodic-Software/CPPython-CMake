@@ -45,7 +45,7 @@ class Builder:
 
         for data in provider_data:
             provider_json_path = provider_directory / f"{data.name}.json"
-            relative_file = provider_json_path.relative_to(provider_directory)
+            relative_file = provider_json_path.relative_to(cppython_preset_directory)
 
             names.append(data.name)
             includes.append(str(relative_file))

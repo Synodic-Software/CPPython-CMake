@@ -1,6 +1,7 @@
 """The vcpkg provider implementation
 """
 
+from pathlib import Path
 from typing import Any
 
 from cppython_core.plugin_schema.generator import Generator
@@ -27,6 +28,18 @@ class CMakeGenerator(Generator):
             Name
         """
         return "cmake"
+
+    @staticmethod
+    def is_supported(path: Path) -> bool:
+        """Queries if CMake is supported
+
+        Args:
+            path: The input directory to query
+
+        Returns:
+            Support
+        """
+        return not path.glob("CMakeLists.txt")
 
     def sync(self, results: list[SyncData]) -> None:
         """Disk sync point

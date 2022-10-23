@@ -124,23 +124,3 @@ class CMakeConfiguration(CPPythonModel):
         ),
         deprecated=True,
     )
-
-    @validator("preset_file")
-    @classmethod
-    def validate_injection_name(cls, value: Path) -> Path:
-        """Validates the path naming scheme. Applied to each item
-
-        Args:
-            value: The input path
-
-        Raises:
-            ValueError: If the naming doesn't conform
-
-        Returns:
-            The output path
-        """
-
-        if not value.name == "CMakePresets.json":
-            raise ValueError("The given file must be valid 'CMakePresets.json' file")
-
-        return value

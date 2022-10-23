@@ -46,7 +46,11 @@ class CMakeGenerator(Generator):
         Returns:
             Support
         """
-        return not path.glob("CMakeLists.txt")
+
+        if list(path.glob("CMakeLists.txt")):
+            return True
+
+        return False
 
     def sync(self, results: list[SyncData]) -> None:
         """Disk sync point

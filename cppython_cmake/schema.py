@@ -5,6 +5,7 @@ from typing import Any
 
 from cppython_core.schema import CPPythonModel
 from pydantic import Extra, Field, validator
+from pydantic.types import FilePath
 
 
 class Preset(CPPythonModel):
@@ -88,7 +89,7 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
     @validator("include")
     @classmethod
     def validate_path(cls, values: list[str] | None) -> list[str] | None:
-        """_summary_
+        """Validates the posix path requirement per the CMake format
 
         Args:
             values: _description_
@@ -103,3 +104,39 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
             return output
 
         return None
+
+
+class CMakeData(CPPythonModel):
+    """Resolved CMake data"""
+
+    settings_files: list[FilePath]
+
+
+class CMakeConfiguration(CPPythonModel):
+    """Configuration"""
+
+    settings_files: list[Path] = Field(
+        default=[Path("CMakePresets.json")],
+        alias="settings-files",
+        description="List of CMakePresets files that will be injected with the CPPython toolchain",
+    )
+
+    @validator("settings_files")
+    @classmethod
+    def validate_injection_name(cls, value: Path) -> Path:
+        """Validates the path naming scheme
+
+        Args:
+            value: The input path
+
+        Raises:
+            ValueError: If the naming doesn't conform
+
+        Returns:
+            The output path
+        """
+
+        if not value.name == "CMakeSettings.json":
+            raise ValueError("The given files must be valid 'CMakeSettings.json' files")
+
+        return value

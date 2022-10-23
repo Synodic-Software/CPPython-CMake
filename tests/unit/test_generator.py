@@ -15,7 +15,7 @@ from cppython_cmake.schema import CMakePresets
 
 
 class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
-    """The tests for the vcpkg generator"""
+    """The tests for the CMake generator"""
 
     @pytest.fixture(name="plugin_data", scope="session")
     def fixture_plugin_data(self) -> dict[str, Any]:
@@ -36,10 +36,10 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         return CMakeGenerator
 
     def test_provider_write(self, tmp_path: Path) -> None:
-        """_summary_
+        """Verifies that the provider preset writing works as intended
 
         Args:
-            tmp_path: _description_
+            tmp_path: The input path the use
         """
         builder = Builder()
 
@@ -51,10 +51,10 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         builder.write_provider_preset(tmp_path, data)
 
     def test_cppython_write(self, tmp_path: Path) -> None:
-        """_summary_
+        """Verifies that the cppython preset writing works as intended
 
         Args:
-            tmp_path: _description_
+            tmp_path: The input path the use
         """
 
         builder = Builder()
@@ -72,10 +72,10 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         builder.write_cppython_preset(tmp_path, provider_directory, [data])
 
     def test_root_write(self, tmp_path: Path) -> None:
-        """_summary_
+        """Verifies that the root preset writing works as intended
 
         Args:
-            tmp_path: _description_
+            tmp_path: The input path the use
         """
 
         builder = Builder()

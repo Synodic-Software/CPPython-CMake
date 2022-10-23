@@ -61,12 +61,11 @@ class CMakeGenerator(Generator):
         provider_directory = cppython_preset_directory / "providers"
         provider_directory.mkdir(parents=True, exist_ok=True)
 
-        root_directory = self.core_data.project_data.pyproject_file.parent
-
         builder = Builder()
 
         for result in results:
             builder.write_provider_preset(provider_directory, result)
 
         cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, results)
-        builder.write_root_presets(root_directory, cppython_preset_file)
+
+        builder.write_root_presets(self._data.preset_file, cppython_preset_file)

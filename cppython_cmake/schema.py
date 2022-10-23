@@ -92,10 +92,10 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
         """Validates the posix path requirement per the CMake format
 
         Args:
-            values: _description_
+            values: The input list
 
         Returns:
-            _description_
+            The output list
         """
         if values is not None:
             output = []
@@ -109,22 +109,26 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
 class CMakeData(CPPythonModel):
     """Resolved CMake data"""
 
-    settings_files: list[FilePath]
+    preset_file: FilePath
 
 
 class CMakeConfiguration(CPPythonModel):
     """Configuration"""
 
-    settings_files: list[Path] = Field(
-        default=[Path("CMakePresets.json")],
-        alias="settings-files",
-        description="List of CMakePresets files that will be injected with the CPPython toolchain",
+    preset_file: Path = Field(
+        default=Path("CMakePresets.json"),
+        alias="preset-file",
+        description=(
+            "CMakePresets file that will be injected with the CPPython toolchain. This field will be removed"
+            " when CMake supports dependency providers"
+        ),
+        deprecated=True,
     )
 
-    @validator("settings_files")
+    @validator("preset_file")
     @classmethod
     def validate_injection_name(cls, value: Path) -> Path:
-        """Validates the path naming scheme
+        """Validates the path naming scheme. Applied to each item
 
         Args:
             value: The input path
@@ -136,7 +140,7 @@ class CMakeConfiguration(CPPythonModel):
             The output path
         """
 
-        if not value.name == "CMakeSettings.json":
-            raise ValueError("The given files must be valid 'CMakeSettings.json' files")
+        if not value.name == "CMakePresets.json":
+            raise ValueError("The given file must be valid 'CMakePresets.json' file")
 
         return value

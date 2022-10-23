@@ -99,4 +99,4 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
 
         cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, [data])
 
-        builder.write_root_presets(tmp_path, cppython_preset_file)
+        builder.write_root_presets(root_file, cppython_preset_file)

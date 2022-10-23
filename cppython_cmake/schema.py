@@ -5,6 +5,7 @@ from typing import Any
 
 from cppython_core.schema import CPPythonModel
 from pydantic import Extra, Field, validator
+from pydantic.types import FilePath
 
 
 class Preset(CPPythonModel):
@@ -88,13 +89,13 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
     @validator("include")
     @classmethod
     def validate_path(cls, values: list[str] | None) -> list[str] | None:
-        """_summary_
+        """Validates the posix path requirement per the CMake format
 
         Args:
-            values: _description_
+            values: The input list
 
         Returns:
-            _description_
+            The output list
         """
         if values is not None:
             output = []
@@ -103,3 +104,43 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
             return output
 
         return None
+
+
+class CMakeData(CPPythonModel):
+    """Resolved CMake data"""
+
+    preset_file: FilePath
+
+
+class CMakeConfiguration(CPPythonModel):
+    """Configuration"""
+
+    preset_file: Path = Field(
+        default=Path("CMakePresets.json"),
+        alias="preset-file",
+        description=(
+            "CMakePresets file that will be injected with the CPPython toolchain. This field will be removed"
+            " when CMake supports dependency providers"
+        ),
+        deprecated=True,
+    )
+
+    @validator("preset_file")
+    @classmethod
+    def validate_injection_name(cls, value: Path) -> Path:
+        """Validates the path naming scheme. Applied to each item
+
+        Args:
+            value: The input path
+
+        Raises:
+            ValueError: If the naming doesn't conform
+
+        Returns:
+            The output path
+        """
+
+        if not value.name == "CMakePresets.json":
+            raise ValueError("The given file must be valid 'CMakePresets.json' file")
+
+        return value

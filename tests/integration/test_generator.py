@@ -10,7 +10,7 @@ from cppython_cmake.plugin import CMakeGenerator
 
 
 class TestCPPythonGenerator(GeneratorIntegrationTests[CMakeGenerator]):
-    """The tests for the vcpkg generator"""
+    """The tests for the CMake generator"""
 
     @pytest.fixture(name="plugin_data", scope="session")
     def fixture_plugin_data(self) -> dict[str, Any]:

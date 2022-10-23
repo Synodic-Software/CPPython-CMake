@@ -100,3 +100,36 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, [data])
 
         builder.write_root_presets(root_file, cppython_preset_file)
+
+    def test_relative_root_write(self, tmp_path: Path) -> None:
+        """Verifies that the root preset writing works as intended
+
+        Args:
+            tmp_path: The input path the use
+        """
+
+        builder = Builder()
+
+        cppython_preset_directory = tmp_path / "tool" / "cppython"
+        cppython_preset_directory.mkdir(parents=True, exist_ok=True)
+
+        provider_directory = cppython_preset_directory / "providers"
+        provider_directory.mkdir(parents=True, exist_ok=True)
+
+        toolchain_file = provider_directory / "toolchain.cmake"
+        with toolchain_file.open("w", encoding="utf-8") as file:
+            file.write("example contents")
+
+        relative_indirection = tmp_path / "nested"
+        relative_indirection.mkdir(parents=True, exist_ok=True)
+
+        root_file = relative_indirection / "CMakePresets.json"
+        presets = CMakePresets()
+        write_model_json(root_file, presets)
+
+        data = SyncData(name="test-provider", data=toolchain_file)
+        builder.write_provider_preset(provider_directory, data)
+
+        cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, [data])
+
+        builder.write_root_presets(root_file, cppython_preset_file)

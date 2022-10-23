@@ -1,4 +1,5 @@
 """Plugin builder"""
+import os.path
 from pathlib import Path
 
 from cppython_core.schema import SyncData
@@ -73,7 +74,7 @@ class Builder:
         root_model = CMakePresets.parse_obj(root_preset)
 
         # First calculate the relative path to the root, then to the CPPython tool preset file location
-        relative_file = cppython_preset_file.relative_to(preset_file.parent).as_posix()
+        relative_file = Path(os.path.relpath(cppython_preset_file, start=preset_file.parent)).as_posix()
         added = False
 
         if root_model.include is not None:

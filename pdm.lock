@@ -5,7 +5,6 @@ requires_python = ">=3.7.2"
 summary = "An abstract syntax tree for Python with inference support."
 dependencies = [
     "lazy-object-proxy>=1.4.0",
-    "wrapt<2,>=1.11; python_version < \"3.11\"",
     "wrapt<2,>=1.14; python_version >= \"3.11\"",
 ]
 
@@ -25,7 +24,6 @@ dependencies = [
     "mypy-extensions>=0.4.3",
     "pathspec>=0.9.0",
     "platformdirs>=2",
-    "tomli>=1.1.0; python_full_version < \"3.11.0a7\"",
 ]
 
 [[package]]
@@ -62,7 +60,6 @@ requires_python = ">=3.7"
 summary = "Code coverage measurement for Python"
 dependencies = [
     "coverage==6.5.0",
-    "tomli; python_full_version <= \"3.11.0a6\"",
 ]
 
 [[package]]
@@ -111,7 +108,6 @@ requires_python = ">=3.7"
 summary = "Optional static typing for Python"
 dependencies = [
     "mypy-extensions>=0.4.3",
-    "tomli>=1.1.0; python_version < \"3.11\"",
     "typing-extensions>=3.10",
 ]
 
@@ -174,7 +170,6 @@ dependencies = [
     "isort<6,>=4.2.5",
     "mccabe<0.8,>=0.6",
     "platformdirs>=2.2.0",
-    "tomli>=1.1.0; python_version < \"3.11\"",
     "tomlkit>=0.10.1",
 ]
 
@@ -254,7 +249,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:6726d900779fa6bdff7c8a63eb8eb565fd8747355a9119d3c7b8f3ef11e7b06d"
+content_hash = "sha256:72b00414fc91bd23cd812e829d973fed43237bfe4deb72054f33fc390da4d01e"
 
 [metadata.files]
 "astroid 2.12.12" = [

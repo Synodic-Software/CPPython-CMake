@@ -1,5 +1,6 @@
 """Plugin builder"""
 import os.path
+from copy import deepcopy
 from pathlib import Path
 
 from cppython_core.schema import SyncData
@@ -70,7 +71,8 @@ class Builder:
             cppython_preset_file: The tool generated file path
         """
 
-        root_preset = read_json(preset_file)
+        initial_root_preset = read_json(preset_file)
+        root_preset = deepcopy(initial_root_preset)
         root_model = CMakePresets.parse_obj(root_preset)
 
         # First calculate the relative path to the root, then to the CPPython tool preset file location
@@ -93,4 +95,5 @@ class Builder:
             value.append(relative_file)
             root_preset["include"] = value
 
-        write_json(preset_file, root_preset)
+        if root_preset != initial_root_preset:
+            write_json(preset_file, root_preset)

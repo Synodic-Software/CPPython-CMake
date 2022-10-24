@@ -2,7 +2,7 @@
 description = "A plugin for CPPython that enables a CMake generator for C++ projects"
 name = "cppython-cmake"
 
-license-expression = "MIT"
+license = "MIT"
 
 authors = [
   {name = "Synodic Software", email = "contact@synodic.software"},
@@ -16,6 +16,7 @@ requires-python = ">=3.10"
 
 dependencies = [
   "cppython-core>=0.3.3.dev0",
+  "cmake>=3.24.1",
 ]
 
 [project.license-files]
@@ -25,7 +26,6 @@ paths = ["LICENSE.md"]
 homepage = "https://github.com/Synodic-Software/CPPython-CMake"
 repository = "https://github.com/Synodic-Software/CPPython-CMake"
 
-[project.optional-dependencies]
 [tool.pdm]
 version = {use_scm = true}
 

@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Any
 
-from cppython_core.schema import CPPythonModel
+from cppython_core.schema import CPPythonModel, SyncData
 from pydantic import Extra, Field, validator
 from pydantic.types import FilePath
 
@@ -104,6 +104,12 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
             return output
 
         return None
+
+
+class CMakeSyncData(SyncData):
+    """The CMake sync data"""
+
+    toolchain: FilePath
 
 
 class CMakeData(CPPythonModel):

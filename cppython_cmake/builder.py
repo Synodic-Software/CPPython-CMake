@@ -3,16 +3,15 @@ import os.path
 from copy import deepcopy
 from pathlib import Path
 
-from cppython_core.schema import SyncData
 from cppython_core.utility import read_json, write_json, write_model_json
 
-from cppython_cmake.schema import CMakePresets, ConfigurePreset
+from cppython_cmake.schema import CMakePresets, CMakeSyncData, ConfigurePreset
 
 
 class Builder:
     """Aids in building the information needed for the CMake plugin"""
 
-    def write_provider_preset(self, provider_directory: Path, data: SyncData) -> None:
+    def write_provider_preset(self, provider_directory: Path, data: CMakeSyncData) -> None:
         """Writes a provider preset from input sync data
 
         Args:
@@ -20,15 +19,15 @@ class Builder:
             data: The providers synchronization data
         """
 
-        configure_preset = ConfigurePreset(name=data.name, hidden=True, toolchainFile=str(data.data))
+        configure_preset = ConfigurePreset(name=data.provider_name, hidden=True, toolchainFile=str(data.toolchain))
         presets = CMakePresets(configurePresets=[configure_preset])
 
-        json_path = provider_directory / f"{data.name}.json"
+        json_path = provider_directory / f"{data.provider_name}.json"
 
         write_model_json(json_path, presets)
 
     def write_cppython_preset(
-        self, cppython_preset_directory: Path, provider_directory: Path, provider_data: list[SyncData]
+        self, cppython_preset_directory: Path, provider_directory: Path, provider_data: CMakeSyncData
     ) -> Path:
         """Write the cppython presets which inherit from the provider presets
 
@@ -41,18 +40,11 @@ class Builder:
             A file path to the written data
         """
 
-        names = []
-        includes = []
+        provider_json_path = provider_directory / f"{provider_data.provider_name}.json"
+        relative_file = provider_json_path.relative_to(cppython_preset_directory).as_posix()
 
-        for data in provider_data:
-            provider_json_path = provider_directory / f"{data.name}.json"
-            relative_file = provider_json_path.relative_to(cppython_preset_directory).as_posix()
-
-            names.append(data.name)
-            includes.append(str(relative_file))
-
-        configure_preset = ConfigurePreset(name="cppython", hidden=True, inherits=names)
-        presets = CMakePresets(configurePresets=[configure_preset], include=includes)
+        configure_preset = ConfigurePreset(name="cppython", hidden=True, inherits=provider_data.provider_name)
+        presets = CMakePresets(configurePresets=[configure_preset], include=[str(relative_file)])
 
         cppython_json_path = cppython_preset_directory / "cppython.json"
 

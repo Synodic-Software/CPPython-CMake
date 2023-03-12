@@ -5,13 +5,13 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from cppython_core.schema import SyncData
+from cppython_core.schema import PluginName
 from cppython_core.utility import write_model_json
 from pytest_cppython.plugin import GeneratorUnitTests
 
 from cppython_cmake.builder import Builder
 from cppython_cmake.plugin import CMakeGenerator
-from cppython_cmake.schema import CMakePresets
+from cppython_cmake.schema import CMakePresets, CMakeSyncData
 
 
 class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
@@ -47,7 +47,7 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         with toolchain_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
-        data = SyncData(name="test-provider", data=toolchain_file)
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), toolchain=toolchain_file)
         builder.write_provider_preset(tmp_path, data)
 
     def test_cppython_write(self, tmp_path: Path) -> None:
@@ -66,10 +66,10 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         with toolchain_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
-        data = SyncData(name="test-provider", data=toolchain_file)
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), toolchain=toolchain_file)
         builder.write_provider_preset(provider_directory, data)
 
-        builder.write_cppython_preset(tmp_path, provider_directory, [data])
+        builder.write_cppython_preset(tmp_path, provider_directory, data)
 
     def test_root_write(self, tmp_path: Path) -> None:
         """Verifies that the root preset writing works as intended
@@ -94,10 +94,10 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         presets = CMakePresets()
         write_model_json(root_file, presets)
 
-        data = SyncData(name="test-provider", data=toolchain_file)
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), toolchain=toolchain_file)
         builder.write_provider_preset(provider_directory, data)
 
-        cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, [data])
+        cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, data)
 
         builder.write_root_presets(root_file, cppython_preset_file)
 
@@ -127,9 +127,8 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         presets = CMakePresets()
         write_model_json(root_file, presets)
 
-        data = SyncData(name="test-provider", data=toolchain_file)
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), toolchain=toolchain_file)
         builder.write_provider_preset(provider_directory, data)
 
-        cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, [data])
-
+        cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, data)
         builder.write_root_presets(root_file, cppython_preset_file)

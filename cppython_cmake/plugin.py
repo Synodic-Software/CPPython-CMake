@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from cppython_core.plugin_schema.generator import Generator, GeneratorGroupData
-from cppython_core.schema import CorePluginData, Information
+from cppython_core.schema import CorePluginData, Information, SyncData
 
 from cppython_cmake.builder import Builder
 from cppython_cmake.resolution import resolve_cmake_data
@@ -47,23 +47,34 @@ class CMakeGenerator(Generator):
 
         return Information()
 
-    def sync(self, sync_data: CMakeSyncData) -> None:
+    @staticmethod
+    def sync_types() -> list[type[SyncData]]:
+        """Returns types in order of preference
+
+        Returns:
+            The available types
+        """
+
+        return [CMakeSyncData]
+
+    def sync(self, sync_data: SyncData) -> None:
         """Disk sync point
 
         Args:
             sync_data: The input data
         """
 
-        cppython_preset_directory = self.core_data.cppython_data.tool_path / "cppython"
-        cppython_preset_directory.mkdir(parents=True, exist_ok=True)
+        if isinstance(sync_data, CMakeSyncData):
+            cppython_preset_directory = self.core_data.cppython_data.tool_path / "cppython"
+            cppython_preset_directory.mkdir(parents=True, exist_ok=True)
 
-        provider_directory = cppython_preset_directory / "providers"
-        provider_directory.mkdir(parents=True, exist_ok=True)
+            provider_directory = cppython_preset_directory / "providers"
+            provider_directory.mkdir(parents=True, exist_ok=True)
 
-        self.builder.write_provider_preset(provider_directory, sync_data)
+            self.builder.write_provider_preset(provider_directory, sync_data)
 
-        cppython_preset_file = self.builder.write_cppython_preset(
-            cppython_preset_directory, provider_directory, sync_data
-        )
+            cppython_preset_file = self.builder.write_cppython_preset(
+                cppython_preset_directory, provider_directory, sync_data
+            )
 
-        self.builder.write_root_presets(self.data.preset_file, cppython_preset_file)
+            self.builder.write_root_presets(self.data.preset_file, cppython_preset_file)

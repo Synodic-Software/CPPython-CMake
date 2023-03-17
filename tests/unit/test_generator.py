@@ -7,7 +7,7 @@ from typing import Any
 import pytest
 from cppython_core.schema import PluginName
 from cppython_core.utility import write_model_json
-from pytest_cppython.plugin import GeneratorUnitTests
+from pytest_cppython.tests import GeneratorUnitTests
 
 from cppython_cmake.builder import Builder
 from cppython_cmake.plugin import CMakeGenerator

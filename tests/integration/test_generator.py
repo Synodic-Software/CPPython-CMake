@@ -4,7 +4,7 @@
 from typing import Any
 
 import pytest
-from pytest_cppython.plugin import GeneratorIntegrationTests
+from pytest_cppython.tests import GeneratorIntegrationTests
 
 from cppython_cmake.plugin import CMakeGenerator
 

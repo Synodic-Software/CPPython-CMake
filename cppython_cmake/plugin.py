@@ -4,7 +4,11 @@
 from pathlib import Path
 from typing import Any
 
-from cppython_core.plugin_schema.generator import Generator, GeneratorGroupData
+from cppython_core.plugin_schema.generator import (
+    Generator,
+    GeneratorPluginGroupData,
+    SupportedGeneratorFeatures,
+)
 from cppython_core.schema import CorePluginData, Information, SyncData
 
 from cppython_cmake.builder import Builder
@@ -15,14 +19,14 @@ from cppython_cmake.schema import CMakeSyncData
 class CMakeGenerator(Generator):
     """CMake generator"""
 
-    def __init__(self, group_data: GeneratorGroupData, core_data: CorePluginData, data: dict[str, Any]) -> None:
+    def __init__(self, group_data: GeneratorPluginGroupData, core_data: CorePluginData, data: dict[str, Any]) -> None:
         self.group_data = group_data
         self.core_data = core_data
         self.data = resolve_cmake_data(data, core_data)
         self.builder = Builder()
 
     @staticmethod
-    def supported(directory: Path) -> bool:
+    def features(directory: Path) -> SupportedGeneratorFeatures:
         """Queries if CMake is supported
 
         Args:
@@ -32,10 +36,7 @@ class CMakeGenerator(Generator):
             Supported?
         """
 
-        if list(directory.glob("CMakeLists.txt")):
-            return True
-
-        return False
+        return SupportedGeneratorFeatures()
 
     @staticmethod
     def information() -> Information:

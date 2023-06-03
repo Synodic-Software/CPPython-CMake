@@ -1,7 +1,6 @@
 """CMake data definitions"""
 
 from pathlib import Path
-from typing import Any, Literal
 
 from cppython_core.schema import CPPythonModel, SyncData
 from pydantic import Field, field_validator

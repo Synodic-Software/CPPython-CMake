@@ -68,7 +68,7 @@ dependencies = [
 
 [[package]]
 name = "cppython-core"
-version = "0.6.1.dev68"
+version = "0.6.1.dev69"
 requires_python = ">=3.11"
 summary = "Data definitions for CPPython"
 dependencies = [
@@ -201,7 +201,7 @@ dependencies = [
 
 [[package]]
 name = "pytest-cppython"
-version = "0.3.1.dev42"
+version = "0.3.1.dev43"
 requires_python = ">=3.11"
 summary = "A pytest plugin that imports CPPython testing types"
 dependencies = [
@@ -367,9 +367,9 @@ content_hash = "sha256:72b00414fc91bd23cd812e829d973fed43237bfe4deb72054f33fc390
     {url = "https://files.pythonhosted.org/packages/fe/57/e4f8ad64d84ca9e759d783a052795f62a9f9111585e46068845b1cb52c2b/coverage-7.2.7-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6f48351d66575f535669306aa7d6d6f71bc43372473b54a832222803eb956fd1"},
     {url = "https://files.pythonhosted.org/packages/ff/d5/52fa1891d1802ab2e1b346d37d349cb41cdd4fd03f724ebbf94e80577687/coverage-7.2.7-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:f2f67fe12b22cd130d34d0ef79206061bfb5eda52feb6ce0dba0644e20a03cf4"},
 ]
-"cppython-core 0.6.1.dev68" = [
-    {url = "https://files.pythonhosted.org/packages/5a/bd/f8bb92a67c89cc907031436960a0e4a7a97bfb5ac83bb0356ca0075d711b/cppython-core-0.6.1.dev68.tar.gz", hash = "sha256:17330d7a1dfb8ec39d65f5140befd374696dfe3e315549d84c4a0a17fdbb27af"},
-    {url = "https://files.pythonhosted.org/packages/6f/79/7c91049050e3714317f934f9a23ca7232b39930fd79a74cb09672a1016ee/cppython_core-0.6.1.dev68-py3-none-any.whl", hash = "sha256:b3343fd13575757d2b39aecd30ba675177b94df8371055ca0c2e4ceb4cc04ca4"},
+"cppython-core 0.6.1.dev69" = [
+    {url = "https://files.pythonhosted.org/packages/d4/4d/c40935ac8659dac1f4299f06fe6ed8c6765e6899c56a648c324fb1213020/cppython-core-0.6.1.dev69.tar.gz", hash = "sha256:4d6e74dd3814e331266f9ddcd05b1740ff981454591781d722131f808d2a0a9c"},
+    {url = "https://files.pythonhosted.org/packages/ff/6f/588420a7e7b16e7af68870bc4541e56a052acd5f93cbff568fd030c5b7e7/cppython_core-0.6.1.dev69-py3-none-any.whl", hash = "sha256:5fd777dddafdda45cc6c38005a92009576e902c69a461080dfb87fe8c27e9560"},
 ]
 "dill 0.3.6" = [
     {url = "https://files.pythonhosted.org/packages/7c/e7/364a09134e1062d4d5ff69b853a56cf61c223e0afcc6906b6832bcd51ea8/dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
@@ -572,9 +572,9 @@ content_hash = "sha256:72b00414fc91bd23cd812e829d973fed43237bfe4deb72054f33fc390
     {url = "https://files.pythonhosted.org/packages/7a/15/da3df99fd551507694a9b01f512a2f6cf1254f33601605843c3775f39460/pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
     {url = "https://files.pythonhosted.org/packages/a7/4b/8b78d126e275efa2379b1c2e09dc52cf70df16fc3b90613ef82531499d73/pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
 ]
-"pytest-cppython 0.3.1.dev42" = [
-    {url = "https://files.pythonhosted.org/packages/0f/39/0588ed438c66da56810e14540c4821ce3d56953ca09ef077b0a19e66395d/pytest_cppython-0.3.1.dev42-py3-none-any.whl", hash = "sha256:03e917571605cc6bb86f90839ffb441d743e96280feb49094b1f577e232dbfd5"},
-    {url = "https://files.pythonhosted.org/packages/b8/84/6848328a2ce0f9fe495ae2b21845ce7dc95aed4cf2ce6b7b0396545114f3/pytest-cppython-0.3.1.dev42.tar.gz", hash = "sha256:8cda22c1c44312c62e6b3d88c687047a48aec26ec474508c0a861f5fcdcdeb7f"},
+"pytest-cppython 0.3.1.dev43" = [
+    {url = "https://files.pythonhosted.org/packages/8e/f8/cba495d95cac44f14a33649eb3591b01b66e2ef7fe9732baec954e48d614/pytest_cppython-0.3.1.dev43-py3-none-any.whl", hash = "sha256:ce8607cd4557504d45e4902c686a94d1dedc0765422beaf1dfa6f998a25e9134"},
+    {url = "https://files.pythonhosted.org/packages/c9/37/8bd433677280558ebc71ec53aee78d1df3ef0f4b9d43bb5a0acd46214db4/pytest-cppython-0.3.1.dev43.tar.gz", hash = "sha256:389315ed9e85a3890f54c566dbede79ad47403d0f1466ee7d246d8bead9d9976"},
 ]
 "pytest-mock 3.10.0" = [
     {url = "https://files.pythonhosted.org/packages/91/84/c951790e199cd54ddbf1021965b62a5415b81193ebdb4f4af2659fd06a73/pytest_mock-3.10.0-py3-none-any.whl", hash = "sha256:f4c973eeae0282963eb293eb173ce91b091a79c1334455acfac9ddee8a1c784b"},

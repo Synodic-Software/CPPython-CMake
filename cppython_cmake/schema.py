@@ -1,10 +1,10 @@
 """CMake data definitions"""
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from cppython_core.schema import CPPythonModel, SyncData
-from pydantic import Extra, Field, validator
+from pydantic import Field, validator
 from pydantic.types import FilePath
 
 
@@ -67,7 +67,7 @@ class TestPreset(Preset):
     inheritConfigureEnvironment: bool | None = Field(default=None)
 
 
-class CMakeVersion(CPPythonModel, extra=Extra.forbid):
+class CMakeVersion(CPPythonModel, extra="forbid"):
     """The version specification for CMake"""
 
     major: int = Field(default=3)
@@ -75,10 +75,10 @@ class CMakeVersion(CPPythonModel, extra=Extra.forbid):
     patch: int = Field(default=1)
 
 
-class CMakePresets(CPPythonModel, extra=Extra.forbid):
+class CMakePresets(CPPythonModel, extra="forbid"):
     """The schema for the CMakePresets and CMakeUserPresets files"""
 
-    version: int = Field(default=4, const=True)
+    version: Literal[6] = Field(default=6)
     cmakeMinimumRequired: CMakeVersion = Field(default=CMakeVersion())
     include: list[str] | None = Field(default=None)
     vendor: Any | None = Field(default=None)

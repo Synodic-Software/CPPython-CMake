@@ -19,7 +19,7 @@ class Builder:
             data: The providers synchronization data
         """
 
-        configure_preset = ConfigurePreset(name=data.provider_name, hidden=True, toolchainFile=str(data.toolchain))
+        configure_preset = ConfigurePreset(name=data.provider_name, hidden=True)
         presets = CMakePresets(configurePresets=[configure_preset])
 
         json_path = provider_directory / f"{data.provider_name}.json"

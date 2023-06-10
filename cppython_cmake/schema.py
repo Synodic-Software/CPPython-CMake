@@ -110,6 +110,17 @@ class CMakeSyncData(SyncData):
 class CMakeData(CPPythonModel):
     """Resolved CMake data"""
 
+    preset_file: FilePath
+    configuration_name: str
+
 
 class CMakeConfiguration(CPPythonModel):
     """Configuration"""
+
+    preset_file: FilePath = Field(
+        default=Path("CMakePresets.json"),
+        description="The CMakePreset.json file that will be searched for the given 'configuration_name'",
+    )
+    configuration_name: str = Field(
+        default="provider", description="The CMake configuration preset to look for and override"
+    )

@@ -43,11 +43,11 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         """
         builder = Builder()
 
-        toolchain_file = tmp_path / "toolchain.cmake"
-        with toolchain_file.open("w", encoding="utf-8") as file:
+        includes_file = tmp_path / "includes.cmake"
+        with includes_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
-        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=Path())
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=includes_file)
         builder.write_provider_preset(tmp_path, data)
 
     def test_cppython_write(self, tmp_path: Path) -> None:
@@ -62,11 +62,11 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         provider_directory = tmp_path / "providers"
         provider_directory.mkdir(parents=True, exist_ok=True)
 
-        toolchain_file = provider_directory / "toolchain.cmake"
-        with toolchain_file.open("w", encoding="utf-8") as file:
+        includes_file = provider_directory / "includes.cmake"
+        with includes_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
-        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=Path())
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=includes_file)
         builder.write_provider_preset(provider_directory, data)
 
         builder.write_cppython_preset(tmp_path, provider_directory, data)
@@ -86,15 +86,15 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         provider_directory = cppython_preset_directory / "providers"
         provider_directory.mkdir(parents=True, exist_ok=True)
 
-        toolchain_file = provider_directory / "toolchain.cmake"
-        with toolchain_file.open("w", encoding="utf-8") as file:
+        includes_file = provider_directory / "includes.cmake"
+        with includes_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
         root_file = tmp_path / "CMakePresets.json"
         presets = CMakePresets()
         write_model_json(root_file, presets)
 
-        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=Path())
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=includes_file)
         builder.write_provider_preset(provider_directory, data)
 
         cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, data)
@@ -116,8 +116,8 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         provider_directory = cppython_preset_directory / "providers"
         provider_directory.mkdir(parents=True, exist_ok=True)
 
-        toolchain_file = provider_directory / "toolchain.cmake"
-        with toolchain_file.open("w", encoding="utf-8") as file:
+        includes_file = provider_directory / "includes.cmake"
+        with includes_file.open("w", encoding="utf-8") as file:
             file.write("example contents")
 
         relative_indirection = tmp_path / "nested"
@@ -127,7 +127,7 @@ class TestCPPythonGenerator(GeneratorUnitTests[CMakeGenerator]):
         presets = CMakePresets()
         write_model_json(root_file, presets)
 
-        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=Path())
+        data = CMakeSyncData(provider_name=PluginName("test-provider"), top_level_includes=includes_file)
         builder.write_provider_preset(provider_directory, data)
 
         cppython_preset_file = builder.write_cppython_preset(cppython_preset_directory, provider_directory, data)

@@ -1,10 +1,9 @@
 """CMake data definitions"""
 
 from pathlib import Path
-from typing import Any
 
 from cppython_core.schema import CPPythonModel, SyncData
-from pydantic import Extra, Field, validator
+from pydantic import Field, field_validator
 from pydantic.types import FilePath
 
 
@@ -18,7 +17,7 @@ class Preset(CPPythonModel):
     description: str | None = Field(default=None)
     cacheVariables: dict[str, None | bool | str | dict[str, str | bool]] | None = Field(default=None)
 
-    @validator("inherits")
+    @field_validator("inherits")
     @classmethod
     def validate_str(cls, values: list[str] | str | None) -> list[str] | None:
         """Modifies the input value to be a list if it is a string
@@ -38,7 +37,7 @@ class ConfigurePreset(Preset):
 
     toolchainFile: str | None = Field(default=None)
 
-    @validator("toolchainFile")
+    @field_validator("toolchainFile")
     @classmethod
     def validate_path(cls, value: str | None) -> str | None:
         """Modifies the value so it is always in posix form
@@ -67,7 +66,7 @@ class TestPreset(Preset):
     inheritConfigureEnvironment: bool | None = Field(default=None)
 
 
-class CMakeVersion(CPPythonModel, extra=Extra.forbid):
+class CMakeVersion(CPPythonModel, extra="forbid"):
     """The version specification for CMake"""
 
     major: int = Field(default=3)
@@ -75,18 +74,14 @@ class CMakeVersion(CPPythonModel, extra=Extra.forbid):
     patch: int = Field(default=1)
 
 
-class CMakePresets(CPPythonModel, extra=Extra.forbid):
+class CMakePresets(CPPythonModel, extra="allow"):
     """The schema for the CMakePresets and CMakeUserPresets files"""
 
-    version: int = Field(default=4, const=True)
+    version: int = Field(default=6)
     cmakeMinimumRequired: CMakeVersion = Field(default=CMakeVersion())
     include: list[str] | None = Field(default=None)
-    vendor: Any | None = Field(default=None)
-    configurePresets: list[ConfigurePreset] | None = Field(default=None)
-    buildPresets: list[BuildPreset] | None = Field(default=None)
-    testPresets: list[TestPreset] | None = Field(default=None)
 
-    @validator("include")
+    @field_validator("include")
     @classmethod
     def validate_path(cls, values: list[str] | None) -> list[str] | None:
         """Validates the posix path requirement per the CMake format
@@ -109,24 +104,23 @@ class CMakePresets(CPPythonModel, extra=Extra.forbid):
 class CMakeSyncData(SyncData):
     """The CMake sync data"""
 
-    toolchain: FilePath
+    top_level_includes: FilePath
 
 
 class CMakeData(CPPythonModel):
     """Resolved CMake data"""
 
     preset_file: FilePath
+    configuration_name: str
 
 
 class CMakeConfiguration(CPPythonModel):
     """Configuration"""
 
-    preset_file: Path = Field(
+    preset_file: FilePath = Field(
         default=Path("CMakePresets.json"),
-        alias="preset-file",
-        description=(
-            "CMakePresets file that will be injected with the CPPython toolchain. This field will be removed"
-            " when CMake supports dependency providers"
-        ),
-        deprecated=True,
+        description="The CMakePreset.json file that will be searched for the given 'configuration_name'",
+    )
+    configuration_name: str = Field(
+        default="provider", description="The CMake configuration preset to look for and override"
     )
